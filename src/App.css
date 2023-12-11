@@ -1,7 +1,3 @@
-:root{
-  --selected-color: #F87070;
-}
-
 *{
   box-sizing: border-box;
 }
@@ -17,7 +13,7 @@ body{
 nav, main, .timer-strip, .timer, .inner-circle, header, label, .customize-box div{
   display: flex;
 }
-main, .timer-strip, .inner-circle{
+main, .timer-strip, .inner-circle, .select-font, .select-color{
   justify-content: center;
   align-items: center;
 }
@@ -29,23 +25,23 @@ nav{
   height: 63px;
   margin: 0 auto;
   padding: 0 5px;
-  border-radius: 50px
+  border-radius: 50px;
 }
 
 nav button{
-  background: transparent;
   width: 120px;
   margin: 0 auto;
   height: 48px;
+  font-weight: 700;
   border: none;
   outline: none;
   color: #D7E0FF;
   border-radius: 50px;
   cursor: pointer;
 }
-
-nav button:active, nav button:focus {
-  background-color: var(--selected-color);
+button, img{
+  font-family: inherit;
+  cursor: pointer;
 }
 
 main{
@@ -68,9 +64,7 @@ main{
 .timer-strip{
   width: 339px;
   height: 339px;
-  /* background: var(--selected-color); */
   border-radius: 100vw;
- /* border: 10px solid var(--selected-color); */
   margin: 0 auto;
 }
 
@@ -82,7 +76,6 @@ canvas{
 .timer{
   width: 320px;
   height: 320px;
-  /* background: #161932; */
   margin: 0 auto;
   border-radius: 100vw;
   flex-direction: column;
@@ -100,23 +93,30 @@ canvas{
   background: transparent;
   color: #D7E0FF;
   border: none;
+  letter-spacing: 15px;
 }
 
 .settings-modal{
   width: 540px;
-  height: 490px;
+  height: 464px;
   background: white;
   border-radius: 25px;
   margin: 0 auto;
   text-align: left;
   color: #161932;
+  z-index: 1000;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
 }
 
 header{
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #E3E1E1;
-  padding: 34px;
+  padding: 34px 38px 31px 40px;
 }
 
 header h2{
@@ -131,11 +131,12 @@ header img{
 }
 
 .customize-box{
-  padding: 34px;
+  padding: 28px 38px 0px 40px;
 }
 
 .customize-box h3{
   font-size: 13px;
+  margin-top: 0;
 }
 
 .customize-box div{
@@ -145,13 +146,13 @@ header img{
 
 label{
   flex-direction: column;
-  padding: 0 0 34px 0;
+  padding: 0 0 24px 0;
 }
 
 label span{
   font-size: 12px;
   color: #1E213F;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
 }
 
 .settings-select {
@@ -171,20 +172,57 @@ label span{
   box-shadow: 0 0 5px #4A90E2;
 }
 
-.select-font{
-  padding: 34px 0;
+.select-font, .select-color{
+  width: 462px;
+  height: 88px;
+  padding: 21px 0 16px 0;
 }
 
-.select-font div{
-  width: 154px;
-  height: 40px;
+.customize-box .select-color{
+  border-bottom: none;
+}
+
+.select-font div, .select-color div{
+  width: 152px;
   border: none;
 }
 
-.select-font div span{
+.select-color h3, .select-font h3{
+  margin: 0;
+  font-size: 13px;
+  letter-spacing: 5px;
+}
+
+.select-font div span, .select-color div span{
   width: 40px;
   height: 40px;
   border-radius: 20px;
   text-align: center;
   line-height: 40px;
+}
+
+.apply-button{
+  width: 140px;
+  height: 53px;
+  border: none;
+  border-radius: 50px;
+  margin: 0 160px;
+}
+
+
+@media only screen and (max-width: 600px) {
+  .settings-modal{
+    width: 100vw;
+  }
+  .select-color, .select-font{
+    width: auto;
+  }
+  .settings-select{
+    width: auto;
+    height: 35px;
+  }
+  .apply-button{
+    margin: 14px 25%;
+  }
+
 }

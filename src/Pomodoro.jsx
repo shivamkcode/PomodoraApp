@@ -3,13 +3,16 @@ import "./App.css";
 
 import settingIcon from "./assets/icon-settings.svg";
 import closeIcon from "./assets/icon-close.svg";
+import tone from "./assets/tone.mp3";
 
 const Pomodoro = () => {
   const [secondsLeft, setSecondsLeft] = useState(25 * 60);
   const [timer, setTimer] = useState();
   const [paused, setPaused] = useState(true);
   const [started, setStarted] = useState(false);
+  const [reset, setReset] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [selectedButton, setSelectedButton] = useState("pomodoro");
 
   const [pomodoroTime, setPomodoroTime] = useState(25);
   const [shortBreakTime, setShortBreakTime] = useState(5);
@@ -27,6 +30,31 @@ const Pomodoro = () => {
   const minutes = Math.floor(secondsLeft / 60);
   const seconds = secondsLeft % 60;
   const toggleSettings = () => setShowSettings(!showSettings);
+  
+  useEffect(() => {
+    const savedCustomizations = JSON.parse(localStorage.getItem('customizations'));
+    if (savedCustomizations) {
+      setTempPomodoroTime(savedCustomizations.tempPomodoroTime);
+      setTempShortBreakTime(savedCustomizations.tempShortBreakTime);
+      setTempLongBreakTime(savedCustomizations.tempLongBreakTime);
+      setTempFont(savedCustomizations.tempFont);
+      setTempColor(savedCustomizations.tempColor);
+      setSelectedButton(savedCustomizations.selectedButton);
+      setSecondsLeft(savedCustomizations.secondsLeft)
+    }
+  }, []);
+  useEffect(() => {
+    localStorage.setItem('customizations', JSON.stringify({
+      tempPomodoroTime,
+      tempShortBreakTime,
+      tempLongBreakTime,
+      tempFont,
+      tempColor,
+      selectedButton,
+      secondsLeft,
+    }));
+  }, [tempPomodoroTime, tempShortBreakTime, tempLongBreakTime, tempFont, tempColor, selectedButton, secondsLeft]);
+  
 
   useEffect(() => {
     document.documentElement.style.setProperty("selected-color", color);
@@ -90,17 +118,51 @@ const Pomodoro = () => {
     return () => clearInterval(timerInterval);
   }, [paused, started, secondsLeft, color]);
 
+  const audio = new Audio(tone);
+
+  useEffect(() => {
+    if (secondsLeft === 0) {
+      audio.play();
+    }
+  }, [secondsLeft]);
+
+  const handleClick = (time, label) => {
+    setSecondsLeft(time * 60);
+    setSelectedButton(label);
+  };
+
   return (
     <div style={{ fontFamily: font }}>
       <h1>pomodoro</h1>
       <nav>
-        <button onClick={() => setSecondsLeft(pomodoroTime * 60)}>
+        <button
+          onClick={() => handleClick(pomodoroTime, "pomodoro")}
+          style={{
+            backgroundColor:
+              selectedButton === "pomodoro" ? color : "transparent",
+            color: selectedButton === "pomodoro" ? "#1E213F" : "#D7E0FF",
+          }}
+        >
           pomodoro
         </button>
-        <button onClick={() => setSecondsLeft(shortBreakTime * 60)}>
+        <button
+          onClick={() => handleClick(shortBreakTime, "short break")}
+          style={{
+            backgroundColor:
+              selectedButton === "short break" ? color : "transparent",
+            color: selectedButton === "short break" ? "#1E213F" : "#D7E0FF",
+          }}
+        >
           short break
         </button>
-        <button onClick={() => setSecondsLeft(longBreakTime * 60)}>
+        <button
+          onClick={() => handleClick(longBreakTime, "long break")}
+          style={{
+            backgroundColor:
+              selectedButton === "long break" ? color : "transparent",
+            color: selectedButton === "long break" ? "#1E213F" : "#D7E0FF",
+          }}
+        >
           long break
         </button>
       </nav>
@@ -115,34 +177,55 @@ const Pomodoro = () => {
             ></canvas>
             <div className="timer">
               <h1>
-                {minutes >= 10 ? `${minutes}` : '0'+minutes}:{seconds >= 10 ? `${seconds}` : '0'+seconds}
+                {minutes >= 10 ? `${minutes}` : "0" + minutes}:
+                {seconds >= 10 ? `${seconds}` : "0" + seconds}
               </h1>
               <div>
-                {!started && (
+                {!started && !reset && (
                   <button
                     onClick={() => {
                       setStarted(true);
                       setPaused(false);
+                      setReset(false);
                     }}
                   >
                     Start
                   </button>
                 )}
-                {started && !paused && timer !== 0 && (
+                {started && !paused && secondsLeft !== 0 && (
                   <button onClick={() => setPaused(true)}>Pause</button>
                 )}
-                {started && paused && timer !== 0 && (
+                {started && paused && secondsLeft !== 0 && (
                   <button onClick={() => setPaused(false)}>Resume</button>
                 )}
-                {timer === 0 && (
-                    <button onClick={() => setSecondsLeft(pomodoroTime * 60)}>Restart</button>
+                {secondsLeft === 0 && (
+                  <button
+                    onClick={() => {
+                      setSecondsLeft(pomodoroTime * 60);
+                      setReset(true);
+                      setStarted(false);
+                    }}
+                  >
+                    Restart
+                  </button>
+                )}
+                {reset && !started && (
+                  <button
+                    onClick={() => {
+                      setStarted(true);
+                      setPaused(false);
+                      setReset(false);
+                    }}
+                  >
+                    Start
+                  </button>
                 )}
               </div>
             </div>
           </div>
         </div>
       </main>
-      <img onClick={toggleSettings} src={settingIcon} alt="settings" />
+      <img className="setting-button" onClick={toggleSettings} src={settingIcon} alt="settings" />
       {showSettings && (
         <div className="settings-modal">
           <header>
@@ -206,19 +289,30 @@ const Pomodoro = () => {
                     fontFamily: "kumbh sans",
                     background:
                       tempFont === "kumbh sans" ? "#161932" : "#EFF1FA",
+                    color: tempFont === "kumbh sans" ? "white" : "#1E213F",
                   }}
                   onClick={() => setTempFont("kumbh sans")}
                 >
                   Aa
                 </span>
                 <span
-                  style={{ fontFamily: "roboto slab" }}
+                  style={{
+                    fontFamily: "roboto slab",
+                    background:
+                      tempFont === "roboto slab" ? "#161932" : "#EFF1FA",
+                    color: tempFont === "roboto slab" ? "white" : "#1E213F",
+                  }}
                   onClick={() => setTempFont("roboto slab")}
                 >
                   Aa
                 </span>
                 <span
-                  style={{ fontFamily: "space mono" }}
+                  style={{
+                    fontFamily: "space mono",
+                    background:
+                      tempFont === "space mono" ? "#161932" : "#EFF1FA",
+                    color: tempFont === "space mono" ? "white" : "#1E213F",
+                  }}
                   onClick={() => setTempFont("space mono")}
                 >
                   Aa
@@ -232,24 +326,27 @@ const Pomodoro = () => {
                   style={{ background: "#F87070" }}
                   onClick={() => setTempColor("#F87070")}
                 >
-                  A{color === "#F87070" && "✔"}
+                  {tempColor === "#F87070" && "✔"}
                 </span>
                 <span
                   style={{ background: "#70F3F8" }}
                   onClick={() => setTempColor("#70F3F8")}
                 >
-                  A{color === "#70F3F8" && "✔"}
+                  {tempColor === "#70F3F8" && "✔"}
                 </span>
                 <span
                   style={{ background: "#D881F8" }}
                   onClick={() => setTempColor("#D881F8")}
                 >
-                  A{color === "#D881F8" && "✔"}
+                  {tempColor === "#D881F8" && "✔"}
                 </span>
               </div>
             </div>
             <button
+              className="apply-button"
+              style={{ background: color }}
               onClick={() => {
+                toggleSettings();
                 setPomodoroTime(tempPomodoroTime);
                 setShortBreakTime(tempShortBreakTime);
                 setLongBreakTime(tempLongBreakTime);
