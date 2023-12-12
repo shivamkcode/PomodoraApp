@@ -4,6 +4,7 @@ import "./App.css";
 import settingIcon from "./assets/icon-settings.svg";
 import closeIcon from "./assets/icon-close.svg";
 import tone from "./assets/tone.mp3";
+import silence from './assets/silence.mp3'
 
 const Pomodoro = () => {
   const [secondsLeft, setSecondsLeft] = useState(25 * 60);
@@ -26,6 +27,8 @@ const Pomodoro = () => {
   const [tempLongBreakTime, setTempLongBreakTime] = useState(longBreakTime);
   const [tempFont, setTempFont] = useState(font);
   const [tempColor, setTempColor] = useState(color);
+
+  const [audio, setAudio] = useState(null);
 
   const minutes = Math.floor(secondsLeft / 60);
   const seconds = secondsLeft % 60;
@@ -139,19 +142,33 @@ const Pomodoro = () => {
     setSecondsLeft(time * 60);
     setSelectedButton(label);
   };
-  // const audio = new Audio(tone);
+  
+  useEffect(() => {
+    const soundEffect = new Audio();
+    soundEffect.autoplay = true;
+    soundEffect.src = silence;
+    setAudio(soundEffect);
+  }, []);
+
+  const audioAuth = () => {
+    if (audio) {
+      audio.src = silence
+      audio.play();
+      // audio.pause();
+    }
+  }
+    
 
   useEffect(() => {
-    if (secondsLeft === 0) {
-      document.getElementById("beep").muted = false;
-      document.getElementById("beep").play();
+    if (secondsLeft === 0 && audio) {
+      audio.src = tone;
+      audio.play();
     }
-  }, [secondsLeft]);
+  }, [secondsLeft, audio]);
 
   return (
     <div style={{ fontFamily: font }}>
-      <h1>pomodoro</h1>
-      <audio id="beep" src={tone} autoPlay muted />
+      <h1>pomodoro</h1> 
       <nav>
         <button
           onClick={() => handleClick(tempPomodoroTime, "pomodoro")}
@@ -206,6 +223,7 @@ const Pomodoro = () => {
                 {!started && !reset && (
                   <button
                     onClick={() => {
+                      audioAuth()
                       setStarted(true);
                       setPaused(false);
                       setReset(false);
@@ -217,6 +235,7 @@ const Pomodoro = () => {
                 {started && !paused && secondsLeft !== 0 && (
                   <button
                     onClick={() => {
+                      audioAuth()
                       setPaused(true);
                     }}
                   >
@@ -226,6 +245,7 @@ const Pomodoro = () => {
                 {started && paused && secondsLeft !== 0 && (
                   <button
                     onClick={() => {
+                      audioAuth()
                       setPaused(false);
                     }}
                   >
@@ -235,6 +255,7 @@ const Pomodoro = () => {
                 {secondsLeft === 0 && (
                   <button
                     onClick={() => {
+                      audioAuth()
                       setSecondsLeft(
                         (selectedButton === "pomodoro"
                           ? tempPomodoroTime
@@ -252,6 +273,7 @@ const Pomodoro = () => {
                 {reset && !started && (
                   <button
                     onClick={() => {
+                      audioAuth()
                       setStarted(true);
                       setPaused(false);
                       setReset(false);
