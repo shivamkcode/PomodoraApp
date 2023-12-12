@@ -45,6 +45,7 @@ const Pomodoro = () => {
       setTempColor(savedCustomizations.tempColor);
       setSelectedButton(savedCustomizations.selectedButton);
       setSecondsLeft(savedCustomizations.secondsLeft);
+      setStarted(savedCustomizations.setStarted);
     }
   }, []);
   useEffect(() => {
@@ -58,6 +59,7 @@ const Pomodoro = () => {
         tempColor,
         selectedButton,
         secondsLeft,
+        started,
       })
     );
   }, [
@@ -82,13 +84,14 @@ const Pomodoro = () => {
       if (secondsLeft === 0) {
         clearInterval(timer);
       }
-    }, 1000);
+    }, 100);
     setTimer(timer);
   }, [paused, started]);
 
   useEffect(() => {
     if (secondsLeft === 0) {
       clearInterval(timer);
+      setStarted(true)
     }
   }, [timer, secondsLeft]);
 
@@ -136,22 +139,19 @@ const Pomodoro = () => {
     setSecondsLeft(time * 60);
     setSelectedButton(label);
   };
-  const audio = new Audio(tone);
-
-  document.addEventListener("touchstart", function () {
-    audio.play();
-    audio.pause();
-  });
+  // const audio = new Audio(tone);
 
   useEffect(() => {
     if (secondsLeft === 0) {
-      audio.play();
+      document.getElementById("beep").muted = false;
+      document.getElementById("beep").play();
     }
   }, [secondsLeft]);
 
   return (
     <div style={{ fontFamily: font }}>
       <h1>pomodoro</h1>
+      <audio id="beep" src={tone} autoPlay muted />
       <nav>
         <button
           onClick={() => handleClick(tempPomodoroTime, "pomodoro")}
@@ -237,10 +237,10 @@ const Pomodoro = () => {
                     onClick={() => {
                       setSecondsLeft(
                         (selectedButton === "pomodoro"
-                          ? pomodoroTime
+                          ? tempPomodoroTime
                           : selectedButton === "short break"
-                          ? shortBreakTime
-                          : longBreakTime) * 60
+                          ? tempShortBreakTime
+                          : tempLongBreakTime) * 60
                       );
                       setReset(true);
                       setStarted(false);
