@@ -39,6 +39,8 @@ const Pomodoro = () => {
       setTempLongBreakTime(savedCustomizations.tempLongBreakTime);
       setFont(savedCustomizations.tempFont);
       setColor(savedCustomizations.tempColor);
+      setTempFont(savedCustomizations.tempFont);
+      setTempColor(savedCustomizations.tempColor);
       setSelectedButton(savedCustomizations.selectedButton);
       setSecondsLeft(savedCustomizations.secondsLeft)
     }
