@@ -70,7 +70,7 @@ const Pomodoro = () => {
       if (secondsLeft === 0) {
         clearInterval(timer);
       }
-    }, 100);
+    }, 1000);
     setTimer(timer);
   }, [paused, started]);
 
