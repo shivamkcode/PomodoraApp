@@ -58,9 +58,9 @@ const Pomodoro = () => {
   }, [tempPomodoroTime, tempShortBreakTime, tempLongBreakTime, tempFont, tempColor, selectedButton, secondsLeft]);
   
 
-  useEffect(() => {
-    document.documentElement.style.setProperty("selected-color", color);
-  });
+  // useEffect(() => {
+  //   document.documentElement.style.setProperty("selected-color", color);
+  // });
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -120,6 +120,15 @@ const Pomodoro = () => {
     return () => clearInterval(timerInterval);
   }, [paused, started, secondsLeft, color]);
 
+  
+  const handleClick = (time, label) => {
+    setSecondsLeft(time * 60);
+    setSelectedButton(label);
+  };
+  const audioPermission = () => {
+    audio.play()
+    audio.pause()
+  }
   const audio = new Audio(tone);
 
   useEffect(() => {
@@ -127,11 +136,6 @@ const Pomodoro = () => {
       audio.play();
     }
   }, [secondsLeft]);
-
-  const handleClick = (time, label) => {
-    setSecondsLeft(time * 60);
-    setSelectedButton(label);
-  };
 
   return (
     <div style={{ fontFamily: font }}>
@@ -186,6 +190,7 @@ const Pomodoro = () => {
                 {!started && !reset && (
                   <button
                     onClick={() => {
+                      audioPermission()
                       setStarted(true);
                       setPaused(false);
                       setReset(false);
@@ -195,14 +200,21 @@ const Pomodoro = () => {
                   </button>
                 )}
                 {started && !paused && secondsLeft !== 0 && (
-                  <button onClick={() => setPaused(true)}>Pause</button>
+                  <button onClick={() => {
+                    audioPermission()
+                    setPaused(true)
+                  }}>Pause</button>
                 )}
                 {started && paused && secondsLeft !== 0 && (
-                  <button onClick={() => setPaused(false)}>Resume</button>
+                  <button onClick={() => {
+                    audioPermission()
+                    setPaused(false)
+                  }}>Resume</button>
                 )}
                 {secondsLeft === 0 && (
                   <button
                     onClick={() => {
+                      audioPermission()
                       setSecondsLeft(pomodoroTime * 60);
                       setReset(true);
                       setStarted(false);
@@ -214,6 +226,7 @@ const Pomodoro = () => {
                 {reset && !started && (
                   <button
                     onClick={() => {
+                      audioPermission()
                       setStarted(true);
                       setPaused(false);
                       setReset(false);
