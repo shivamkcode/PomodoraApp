@@ -86,6 +86,7 @@ canvas{
 
 .timer h1{
   margin-bottom: 0;
+  letter-spacing: -5px;
 }
 
 .timer div button{
@@ -211,8 +212,33 @@ label span{
 
 
 @media only screen and (max-width: 600px) {
+  nav{
+    margin: 45px auto;
+    width: 327px;
+  }
+  main{
+    width: 300px;
+    height: 300px;
+    margin-bottom: 79px;
+  }
+  .inner-circle{
+    width: 268px;
+    height: 268px;
+  }
+  .timer-strip, canvas{
+    width: 248px;
+    height: 248px;
+  }
+  .timer h1{
+    font-size: 80px;
+    letter-spacing: -4px;
+    margin-top: 100px;
+  }
+  .timer div{
+    font-size: 0;
+  }
   .settings-modal{
-    width: 100vw;
+    width: 327px;
   }
   .select-color, .select-font{
     width: auto;
