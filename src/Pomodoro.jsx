@@ -37,8 +37,8 @@ const Pomodoro = () => {
       setTempPomodoroTime(savedCustomizations.tempPomodoroTime);
       setTempShortBreakTime(savedCustomizations.tempShortBreakTime);
       setTempLongBreakTime(savedCustomizations.tempLongBreakTime);
-      setTempFont(savedCustomizations.tempFont);
-      setTempColor(savedCustomizations.tempColor);
+      setFont(savedCustomizations.tempFont);
+      setColor(savedCustomizations.tempColor);
       setSelectedButton(savedCustomizations.selectedButton);
       setSecondsLeft(savedCustomizations.secondsLeft)
     }
@@ -68,7 +68,7 @@ const Pomodoro = () => {
       if (secondsLeft === 0) {
         clearInterval(timer);
       }
-    }, 1000);
+    }, 100);
     setTimer(timer);
   }, [paused, started]);
 
@@ -89,7 +89,7 @@ const Pomodoro = () => {
     const drawTimerStrip = (remainingTime) => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      const percentageRemaining = remainingTime / (pomodoroTime * 60);
+      const percentageRemaining = remainingTime / (tempPomodoroTime * 60);
 
       const centerX = canvas.width / 2;
       const centerY = canvas.height / 2;

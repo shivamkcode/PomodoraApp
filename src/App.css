@@ -95,6 +95,7 @@ canvas{
   color: #D7E0FF;
   border: none;
   letter-spacing: 15px;
+  padding-left: 20px;
 }
 
 .settings-modal{
