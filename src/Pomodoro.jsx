@@ -176,7 +176,7 @@ const Pomodoro = () => {
               style={{ position: "absolute", top: 0, left: 0 }}
             ></canvas>
             <div className="timer">
-              <h1 style={{ letterSpacing: font === "space mono" ? "-10px" : "-4px" }}>
+              <h1 style={{ letterSpacing: font === "space mono" ? "-10px" : '0px' }}>
                 {minutes >= 10 ? `${minutes}` : "0" + minutes}:
                 {seconds >= 10 ? `${seconds}` : "0" + seconds}
               </h1>
