@@ -136,7 +136,7 @@ const Pomodoro = () => {
       <h1>pomodoro</h1>
       <nav>
         <button
-          onClick={() => handleClick(pomodoroTime, "pomodoro")}
+          onClick={() => handleClick(tempPomodoroTime, "pomodoro")}
           style={{
             backgroundColor:
               selectedButton === "pomodoro" ? color : "transparent",
@@ -146,7 +146,7 @@ const Pomodoro = () => {
           pomodoro
         </button>
         <button
-          onClick={() => handleClick(shortBreakTime, "short break")}
+          onClick={() => handleClick(tempShortBreakTime, "short break")}
           style={{
             backgroundColor:
               selectedButton === "short break" ? color : "transparent",
@@ -156,7 +156,7 @@ const Pomodoro = () => {
           short break
         </button>
         <button
-          onClick={() => handleClick(longBreakTime, "long break")}
+          onClick={() => handleClick(tempLongBreakTime, "long break")}
           style={{
             backgroundColor:
               selectedButton === "long break" ? color : "transparent",
@@ -176,7 +176,7 @@ const Pomodoro = () => {
               style={{ position: "absolute", top: 0, left: 0 }}
             ></canvas>
             <div className="timer">
-              <h1>
+              <h1 style={{ letterSpacing: font === "space mono" ? "-10px" : "-4px" }}>
                 {minutes >= 10 ? `${minutes}` : "0" + minutes}:
                 {seconds >= 10 ? `${seconds}` : "0" + seconds}
               </h1>
