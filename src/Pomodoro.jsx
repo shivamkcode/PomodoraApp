@@ -30,9 +30,11 @@ const Pomodoro = () => {
   const minutes = Math.floor(secondsLeft / 60);
   const seconds = secondsLeft % 60;
   const toggleSettings = () => setShowSettings(!showSettings);
-  
+
   useEffect(() => {
-    const savedCustomizations = JSON.parse(localStorage.getItem('customizations'));
+    const savedCustomizations = JSON.parse(
+      localStorage.getItem("customizations")
+    );
     if (savedCustomizations) {
       setTempPomodoroTime(savedCustomizations.tempPomodoroTime);
       setTempShortBreakTime(savedCustomizations.tempShortBreakTime);
@@ -42,21 +44,31 @@ const Pomodoro = () => {
       setTempFont(savedCustomizations.tempFont);
       setTempColor(savedCustomizations.tempColor);
       setSelectedButton(savedCustomizations.selectedButton);
-      setSecondsLeft(savedCustomizations.secondsLeft)
+      setSecondsLeft(savedCustomizations.secondsLeft);
     }
   }, []);
   useEffect(() => {
-    localStorage.setItem('customizations', JSON.stringify({
-      tempPomodoroTime,
-      tempShortBreakTime,
-      tempLongBreakTime,
-      tempFont,
-      tempColor,
-      selectedButton,
-      secondsLeft,
-    }));
-  }, [tempPomodoroTime, tempShortBreakTime, tempLongBreakTime, tempFont, tempColor, selectedButton, secondsLeft]);
-  
+    localStorage.setItem(
+      "customizations",
+      JSON.stringify({
+        tempPomodoroTime,
+        tempShortBreakTime,
+        tempLongBreakTime,
+        tempFont,
+        tempColor,
+        selectedButton,
+        secondsLeft,
+      })
+    );
+  }, [
+    tempPomodoroTime,
+    tempShortBreakTime,
+    tempLongBreakTime,
+    tempFont,
+    tempColor,
+    selectedButton,
+    secondsLeft,
+  ]);
 
   // useEffect(() => {
   //   document.documentElement.style.setProperty("selected-color", color);
@@ -120,16 +132,16 @@ const Pomodoro = () => {
     return () => clearInterval(timerInterval);
   }, [paused, started, secondsLeft, color]);
 
-  
   const handleClick = (time, label) => {
     setSecondsLeft(time * 60);
     setSelectedButton(label);
   };
-  const audioPermission = () => {
-    audio.play()
-    audio.pause()
-  }
   const audio = new Audio(tone);
+
+  document.addEventListener("touchstart", function () {
+    audio.play();
+    audio.pause();
+  });
 
   useEffect(() => {
     if (secondsLeft === 0) {
@@ -182,7 +194,11 @@ const Pomodoro = () => {
               style={{ position: "absolute", top: 0, left: 0 }}
             ></canvas>
             <div className="timer">
-              <h1 style={{ letterSpacing: font === "space mono" ? "-10px" : '0px' }}>
+              <h1
+                style={{
+                  letterSpacing: font === "space mono" ? "-10px" : "0px",
+                }}
+              >
                 {minutes >= 10 ? `${minutes}` : "0" + minutes}:
                 {seconds >= 10 ? `${seconds}` : "0" + seconds}
               </h1>
@@ -190,7 +206,6 @@ const Pomodoro = () => {
                 {!started && !reset && (
                   <button
                     onClick={() => {
-                      audioPermission()
                       setStarted(true);
                       setPaused(false);
                       setReset(false);
@@ -200,22 +215,33 @@ const Pomodoro = () => {
                   </button>
                 )}
                 {started && !paused && secondsLeft !== 0 && (
-                  <button onClick={() => {
-                    audioPermission()
-                    setPaused(true)
-                  }}>Pause</button>
+                  <button
+                    onClick={() => {
+                      setPaused(true);
+                    }}
+                  >
+                    Pause
+                  </button>
                 )}
                 {started && paused && secondsLeft !== 0 && (
-                  <button onClick={() => {
-                    audioPermission()
-                    setPaused(false)
-                  }}>Resume</button>
+                  <button
+                    onClick={() => {
+                      setPaused(false);
+                    }}
+                  >
+                    Resume
+                  </button>
                 )}
                 {secondsLeft === 0 && (
                   <button
                     onClick={() => {
-                      audioPermission()
-                      setSecondsLeft(pomodoroTime * 60);
+                      setSecondsLeft(
+                        (selectedButton === "pomodoro"
+                          ? pomodoroTime
+                          : selectedButton === "short break"
+                          ? shortBreakTime
+                          : longBreakTime) * 60
+                      );
                       setReset(true);
                       setStarted(false);
                     }}
@@ -226,7 +252,6 @@ const Pomodoro = () => {
                 {reset && !started && (
                   <button
                     onClick={() => {
-                      audioPermission()
                       setStarted(true);
                       setPaused(false);
                       setReset(false);
@@ -240,7 +265,12 @@ const Pomodoro = () => {
           </div>
         </div>
       </main>
-      <img className="setting-button" onClick={toggleSettings} src={settingIcon} alt="settings" />
+      <img
+        className="setting-button"
+        onClick={toggleSettings}
+        src={settingIcon}
+        alt="settings"
+      />
       {showSettings && (
         <div className="settings-modal">
           <header>
