@@ -29,6 +29,7 @@ const Pomodoro = () => {
   const [tempColor, setTempColor] = useState(color);
 
   const [audio, setAudio] = useState(null);
+  const [shouldBlink, setShouldBlink] = useState(false)
 
   const minutes = Math.floor(secondsLeft / 60);
   const seconds = secondsLeft % 60;
@@ -51,6 +52,7 @@ const Pomodoro = () => {
       setStarted(savedCustomizations.setStarted);
     }
   }, []);
+
   useEffect(() => {
     localStorage.setItem(
       "customizations",
@@ -78,6 +80,14 @@ const Pomodoro = () => {
   // useEffect(() => {
   //   document.documentElement.style.setProperty("selected-color", color);
   // });
+
+  useEffect(() => {
+    if(secondsLeft <= 10 && secondsLeft > 0){
+      setShouldBlink(true)
+    }else{
+      setShouldBlink(false)
+    }
+  }, [secondsLeft])
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -154,10 +164,12 @@ const Pomodoro = () => {
     if (audio) {
       audio.src = silence
       audio.play();
-      // audio.pause();
     }
   }
     
+    
+
+
 
   useEffect(() => {
     if (secondsLeft === 0 && audio) {
@@ -210,8 +222,8 @@ const Pomodoro = () => {
               height="339"
               style={{ position: "absolute", top: 0, left: 0 }}
             ></canvas>
-            <div className="timer">
-              <h1
+            <div className={`timer`}>
+              <h1 className={`${shouldBlink ? 'blink' : ''}`}
                 style={{
                   letterSpacing: font === "space mono" ? "-10px" : "0px",
                 }}
