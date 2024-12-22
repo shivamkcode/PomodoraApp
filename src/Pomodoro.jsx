@@ -5,7 +5,7 @@ import settingIcon from "./assets/icon-settings.svg";
 import closeIcon from "./assets/icon-close.svg";
 import tone from "./assets/tone.mp3";
 import silence from './assets/silence.mp3'
-
+ 
 const Pomodoro = () => {
   const [secondsLeft, setSecondsLeft] = useState(25 * 60);
   const [timer, setTimer] = useState();
@@ -76,10 +76,6 @@ const Pomodoro = () => {
     selectedButton,
     secondsLeft,
   ]);
-
-  // useEffect(() => {
-  //   document.documentElement.style.setProperty("selected-color", color);
-  // });
 
   useEffect(() => {
     if(secondsLeft <= 10 && secondsLeft > 0){
@@ -166,10 +162,6 @@ const Pomodoro = () => {
       audio.play();
     }
   }
-    
-    
-
-
 
   useEffect(() => {
     if (secondsLeft === 0 && audio) {
@@ -180,7 +172,7 @@ const Pomodoro = () => {
 
   return (
     <div style={{ fontFamily: font }}>
-      <h1>pomodoro</h1> 
+      <h1>pomodoro</h1>
       <nav>
         <button
           onClick={() => handleClick(tempPomodoroTime, "pomodoro")}

@@ -1,4 +1,4 @@
-# Pomodoro Timer
+# Pomodoro App
 
 ## Description
 
@@ -13,32 +13,65 @@ This is a Pomodoro Timer application built with ReactJS. The application allows 
 
 ## Installation
 
-To get started, clone the repository to your local machine:
+1. To get started, clone the repository to your local machine:
 
-```bash
-git clone https://github.com/yourusername/pomodoro-timer.git
+   ```bash
+   git clone https://github.com/shivamkcode/pomodoroapp.git
+   ```
 
-Navigate into the project directory:
+2. Navigate into the project directory:
 
-cd pomodoro-timer
+   ```bash
+   cd pomodoroApp
+   ```
 
-Install the dependencies:
+3. Install the dependencies:
 
-npm install
+   ```bash
+   npm install
+   ```
 
-Start the application:
+4. Start the application:
+   ```bash
+   npm start
+   ```
 
-npm start
+The application should now be running at `http://localhost:3000`.
 
-The application should now be running at http://localhost:3000.
+## Screenshots
 
-Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+### App
 
-License
-MIT
+![App](https://res.cloudinary.com/ddmxmmot6/image/upload/v1734894169/pomodoro-app-kohl-nu.vercel.app__lqsrbt.png)
 
+### Settings
 
-Please replace `yourusername` with your actual GitHub username. This README includes sections for the description of the project, its features, installation instructions, contribution guidelines, and the license. You can modify it as per your requirements. Happy coding! 🚀
+![Settings](https://res.cloudinary.com/ddmxmmot6/image/upload/v1734894264/pomodoro-app-kohl-nu.vercel.app__1_shsxrj.png)
 
+## Contributing
 
+Contributions are welcome! Please fork the repository and create a pull request. For major changes, please open an issue first to discuss what you would like to change.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+## Contact
+
+Shivam Kumar - [ShivamBaniya12@gmail.com](mailto:ShivamBaniya12@gmail.com)
+
+Project Link: [https://github.com/shivamkcode/PomodoraApp](https://github.com/shivamkcode/PomodoraApp)
+
+## Deployed Site
+
+The Pomodoro App is live! You can explore the features and services provided by visiting the deployed site at:
+
+[https://pomodoro-app-kohl-nu.vercel.app/](https://pomodoro-app-kohl-nu.vercel.app/)
+
+Check it out to experience the full functionality of the website in both male and female versions.
