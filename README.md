@@ -73,5 +73,3 @@ Project Link: [https://github.com/shivamkcode/PomodoraApp](https://github.com/sh
 The Pomodoro App is live! You can explore the features and services provided by visiting the deployed site at:
 
 [https://pomodoro-app-kohl-nu.vercel.app/](https://pomodoro-app-kohl-nu.vercel.app/)
-
-Check it out to experience the full functionality of the website in both male and female versions.
